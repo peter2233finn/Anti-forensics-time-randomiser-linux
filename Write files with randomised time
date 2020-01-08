@@ -40,4 +40,5 @@ do
 done
 
 ls -lt $syncTo
+echo ""
 echo "Confirm this worked correctly by comparing the dates written on the files"
