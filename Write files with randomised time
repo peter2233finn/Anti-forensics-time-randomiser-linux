@@ -1,11 +1,17 @@
 # syncFrom is the directory where files will be taken from
 # syncTo is the directory where files will be written to with the randomised time
-
 syncFrom=$1
 syncTo=$2
 
-echo "$syncFrom $syncTo"
+echo "Syncing directory $syncFrom to $syncTo"
 
+#check if it is run as a root user
+if [ "$EUID" -ne 0 ]
+	then echo "Please run as root user"
+	exit
+fi
+
+# check if correct number of arguements are given.
 if (( $# != 2 ))
 then
 	echo "Wrong number of arguements."
@@ -19,7 +25,6 @@ hour=$(((($RANDOM%23))+1))
 day=$(((($RANDOM%28))+1))
 month=$(((($RANDOM%12))+1))
 year=$(((($RANDOM%2038))+1))
-
 #note the day only goes up to 28, as that is the min number of days in any month
 
 while (( $year<1970 ))
@@ -33,6 +38,8 @@ sudo hwclock --set --date "$month/$day/$year $hour:$min:$sec"
 sudo hwclock -s
 }
 
+# For some reason it occasionally fails to set the time
+# It will keep trying until the system accepts the time
 for file in $syncFrom/*
 do
 	setFail="0"
