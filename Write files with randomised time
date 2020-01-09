@@ -5,7 +5,7 @@ syncTo=$2
 
 echo "Syncing directory $syncFrom to $syncTo"
 
-#check if it is run as a root user
+# check if it is run as a root user
 if [ "$EUID" -ne 0 ]
 	then echo "Please run as root user"
 	exit
