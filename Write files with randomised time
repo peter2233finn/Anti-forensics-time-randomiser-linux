@@ -1,8 +1,16 @@
 # syncFrom is the directory where files will be taken from
 # syncTo is the directory where files will be written to with the randomised time
 
-syncFrom=/place/to/get/files/from
-syncTo=/place/to/put/files/to
+syncFrom=$1
+syncTo=$2
+
+echo "$syncFrom $syncTo"
+
+if (( $# != 2 ))
+then
+	echo "Wrong number of arguements."
+	echo "./program.sh /input/directory /output/directory"
+fi
 
 function randomiseClock {
 sec=$(((($RANDOM%59))+1))
