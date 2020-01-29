@@ -17,7 +17,20 @@ done
 sudo hwclock --set --date "$month/$day/$year $hour:$min:$sec"
 sudo hwclock -s
 }
-echo test
+
+# check if the program can set the system time
+orgDate=$(date|awk '{print $1 $2 $3}')
+randomiseClock
+sleep 2
+setDate=$(date|awk '{print $1 $2 $3}')
+
+if [[ "$orgDate" == "$setDate" ]]
+then
+	echo "Error: Failed to set the hwclock. check if network time is turned on"
+	echo "Exiting."
+	exit
+fi
+
 while true
 do
 	randomiseClock
